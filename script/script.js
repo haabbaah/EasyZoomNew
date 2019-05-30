@@ -68,6 +68,7 @@ class GetCode extends Engine {
 		super();
 
 		this.getCode = document.querySelector('.btn-get-code');
+		this.getCodeTextarea = document.querySelector('#field-get-code');
 		this.str = '';
 
 		this.field = 'foto';
@@ -111,7 +112,7 @@ class GetCode extends Engine {
 				this.clearInput('.data-num input');
 			} else if (event.keyCode === 13) { //Enter
 				this.createData();
-			} else if (event.keyCode === 32) { //Space
+			} else if (event.keyCode === 32 && event.ctrlKey) { //Ctrl + Space
 				this.changeCheckBox('.not-description', '.with-description');
 			}
 		}, false);
@@ -124,17 +125,17 @@ class GetCode extends Engine {
 			num: +document.querySelector('#num').value,
 			startNum: +document.querySelector('#start-num').value,
 			endNum: +document.querySelector('#end-num').value,
-			only: +document.querySelector('#only').value,
-			pass: +document.querySelector('#pass').value,
+			only: document.querySelector('#only').value,
+			pass: document.querySelector('#pass').value,
 		};
 
 		this.options = {
-			withDescription: document.querySelector('.not-description').checked,
+			notDescription: document.querySelector('.not-description').checked,
 			withJpg: document.querySelector('.with-jpg').checked,
-			withFrame: document.querySelector('.not-frame').checked,
-			withObj: document.querySelector('.not-obj').checked,
+			notFrame: document.querySelector('.not-frame').checked,
+			notObj: document.querySelector('.not-obj').checked,
 			addClassImg: document.querySelector('#add-class-img').value,
-			wrapperClass: document.querySelector('#wrapper-class').value,
+			//wrapperClass: document.querySelector('#wrapper-class').value,
 			marginTop: document.querySelector('#margin-top').value,
 			marginTopUnit: document.querySelector('#margin-top-unit').value,
 			marginBottom: document.querySelector('#margin-bottom').value,
@@ -143,6 +144,12 @@ class GetCode extends Engine {
 			codeBottom: document.querySelector('#code-bottom').value,
 			path: document.querySelector('#path').value,
 		};
+
+
+		this.dataNum.arrOnly = this.dataNum.only.split(' ');
+		this.dataNum.max = Math.max.apply(null, this.dataNum.arrOnly); //максимальное число из массива
+
+		this.dataNum.startNum = this.dataNum.startNum || 1; //начать с
 
 
 		if (!this.dataNum.num) {
@@ -155,16 +162,31 @@ class GetCode extends Engine {
 			} else {
 				this.dataNum.num = this.dataNum.endNum;
 			}
-		} else {
-			this.dataNum.num = +this.dataNum.num;
 		}
 
 
+		this.options.withJpg ? this.options.withJpg = 'jpg' : this.options.withJpg = 'png';
+		this.options.notFrame ? this.options.notFrame = '' : this.options.notFrame = 'frame';
+		this.options.notObj ? this.options.notObj = '' : this.options.notObj = 'obj';
+
+
+		this.options.marginTop = this.options.marginTop || "2";
+		this.options.marginBottom = this.options.marginBottom || "2";
+		this.options.marginTopUnit = this.options.marginTopUnit || "rem";
+		this.options.marginBottomUnit = this.options.marginBottomUnit || "rem";
+
+
+
+
+		if (this.dataNum.startNum > this.dataNum.num) {
+			this.dataNum.num = this.dataNum.startNum;
+		}
+
+
+
+
+		console.log(this.dataNum.startNum);
 		console.log(this.dataNum.num);
-
-
-
-
 
 
 
@@ -177,16 +199,55 @@ class GetCode extends Engine {
 
 
 
+
 	createFotoCode() {
-		console.log('foto');
+		if (this.options.notDescription) {
+			for (let k = this.dataNum.startNum; k <= this.dataNum.num; k++) {
+				if (k < 10) {
+					k = "0" + k;
+				}
+				this.str = this.str + this.options.codeTop + `\n<div class="zooming">\n<figure itemprop="associatedMedia" style="margin-top: ${this.options.marginTop}${this.options.marginTopUnit}; margin-bottom: ${this.options.marginBottom}${this.options.marginBottomUnit}">\n<a href="${this.options.path + k}.${this.options.withJpg}" itemprop="contentUrl" data-size="">\n<img src="${this.options.path + k}.${this.options.withJpg}" itemprop="thumbnail" class="${this.options.addClassImg} ${this.options.notFrame}" />\n</a>\n</figure>\n</div>\n` + this.options.codeBottom;
+			}
+		} else {
+			for (let k = this.dataNum.startNum; k <= this.dataNum.num; k++) {
+				if (k < 10) {
+					k = "0" + k;
+				}
+				this.str = this.str + `\n<div class="zooming">\n<figure itemprop="associatedMedia" style="margin-top: ${this.options.marginTop}${this.options.marginTopUnit}; margin-bottom: ${this.options.marginBottom}${this.options.marginBottomUnit}">\n<a href="${this.options.path + k}.${this.options.withJpg}" itemprop="contentUrl" data-size="">\n<img src="${this.options.path + k}.${this.options.withJpg}" itemprop="thumbnail" class="${this.options.addClassImg} ${this.options.notFrame}" />\n</a>\n<figcaption itemprop="caption description">\n\n </figcaption>\n</figure>\n</div>\n<figcaption itemprop="caption description">\n\n</figcaption>\n`;
+			}
+		}
+
+		this.copyCode();
 	}
+
+
 
 	createSliderCode() {
 		console.log('slider');
 	}
 
 
-	changeOptionsField() {
+
+
+
+
+	copyCode() {
+
+		this.getCodeTextarea.value = this.str;
+
+		//Автоматическое копирование в буфер обменм
+		this.getCodeTextarea.select();
+		document.execCommand("copy");
+		//Автоматическое копирование в буфер обменм end
+
+		this.str = '';
+	}
+
+
+
+
+
+	changeOptionsField() { //Смена между фото и слайдером
 		if (this.field === 'foto') {
 			this.removeClassAllElement(this.notSlider, 'd-n');
 			this.addClassAllElement(this.withSlider, 'd-n');
@@ -196,14 +257,14 @@ class GetCode extends Engine {
 		}
 	}
 
-	clearInput(selector) {
+	clearInput(selector) { // очистить определенные input
 		let input = document.querySelectorAll(selector);
 		for (let k = 0; k < input.length; k++) {
 			input[k].value = '';
 		}
 	}
 
-	changeCheckBox(one, two) {
+	changeCheckBox(one, two) { // поменять включение между двумя чекбоксами
 		let oneCB = document.querySelector(one);
 		let twoCB = document.querySelector(two);
 

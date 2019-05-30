@@ -78,6 +78,7 @@ input {
 	display: grid;
 	grid-template-columns: auto auto;
 	grid-template-areas: "num clear"
+		"data-range clear"
 		"interval clear"
 		"input-a clear"
 		"input-b clear";
@@ -94,6 +95,14 @@ input {
 
 .num-create .data .data-num .input-b {
 	grid-area: input-b;
+}
+
+.num-create .data .data-num .data-range {
+	grid-area: data-range;
+}
+
+.num-create .data .data-num .data-range p{
+	margin: 0;
 }
 
 .num-create .data .data-num .clear {
