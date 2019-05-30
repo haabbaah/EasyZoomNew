@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ФОТО</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/style.css">
+
+
+</head>
+
+<body>
+
+	<section class="num-create">
+		<div class="data">
+			<div class="data-num">
+				<input type="number" id="num" placeholder="сколько элементов">
+				<form class="">
+					<p class="range-field">
+						<input type="range" id="test5" min="0" max="100" />
+					</p>
+				</form>
+				<div class="interval">
+					<label for="start-num">С</label> <input type="text" id="start-num">
+					<label for="end-num">ПО</label> <input type="text" id="end-num">
+				</div>
+				<div class="input input-a">
+					<label for="only">Только эти фото (ч-з дефис "-")</label>
+					<input type="text" id="only">
+				</div>
+				<div class="input input-b">
+					<label for="pass">Пропуск фото (ч-з дефис "-")</label>
+					<input type="text" id="pass">
+				</div>
+				<div class="clear btn red accent-2">
+					×
+				</div>
+			</div>
+
+			<div class="get-code">
+				<div class="btn-large btn-get-code waves-effect">
+					получить
+				</div>
+				<textarea id="field-get-code">
+
+				</textarea>
+			</div>
+
+			<div class="btn-large waves-effect">
+				drag and drop
+			</div>
+
+		</div>
+
+
+		<div class="options">
+			<div class="options-trigger ">
+				<div class="trigger-btn trigger-foto btn-large ">
+					PHOTO
+				</div>
+				<div class="trigger-btn trigger-slider btn-large  disabled">
+					SLIDER
+				</div>
+			</div>
+			<div class="options-wrapper">
+				<div class="options-field">
+					<div class="options-item">
+						<form class="options-radio not-slider">
+							<p>
+								<label>
+									<input class="with-gap not-description" name="group1" type="radio" checked />
+									<span>Без подписи</span>
+								</label>
+							</p>
+							<p>
+								<label>
+									<input class="with-gap with-description" name="group1" type="radio" />
+									<span>С подписью</span>
+								</label>
+							</p>
+						</form>
+						<form class="options-radio">
+							<p>
+								<label>
+									<input class="with-gap with-jpg" name="group2" type="radio" checked />
+									<span>jpg</span>
+								</label>
+							</p>
+							<p>
+								<label>
+									<input class="with-gap with-png" name="group2" type="radio" />
+									<span>png</span>
+								</label>
+							</p>
+						</form>
+						<form class="options-radio not-slider">
+							<p>
+								<label>
+									<input class="with-gap not-frame" name="group3" type="radio" checked />
+									<span>Без frame</span>
+								</label>
+							</p>
+							<p>
+								<label>
+									<input class="with-gap with-frame" name="group3" type="radio" />
+									<span>С frame</span>
+								</label>
+							</p>
+						</form>
+
+						<form class="options-radio with-slider d-n">
+							<p>
+								<label>
+									<input class="with-gap not-obj" name="group4" type="radio" checked />
+									<span>Без obj</span>
+								</label>
+							</p>
+							<p>
+								<label>
+									<input class="with-gap with-obj" name="group4" type="radio" />
+									<span>С obj</span>
+								</label>
+							</p>
+						</form>
+
+						<div class="input-field">
+							<input type="text" id="add-class-img">
+							<label for="add-class-img">Добавить класс для img</label>
+						</div>
+
+						<div class="input-field">
+							<input id="wrapper-class" type="text">
+							<label for="wrapper-class">Обернуть в свой класс</label>
+						</div>
+
+						<div class="input input-margin">
+							<label for="margin-top">Отступ сверху</label>
+							<div class="wrapper-input">
+								<input type="text" id="margin-top" placeholder="2">
+								<input type="text" id="margin-top-unit" placeholder="rem">
+							</div>
+						</div>
+						<div class="input input-margin">
+							<label for="margin-bottom">Отступ снизу</label>
+							<div class="wrapper-input">
+								<input type="text" id="margin-bottom" placeholder="2">
+								<input type="text" id="margin-bottom-unit" placeholder="rem">
+							</div>
+						</div>
+					</div>
+					<div class="options-item">
+						<div class="input-field">
+							<textarea id="code-top" class="materialize-textarea"></textarea>
+							<label for="code-top">Добавить код сверху</label>
+						</div>
+						<div class="input-field">
+							<textarea id="code-bottom" class="materialize-textarea"></textarea>
+							<label for="code-bottom">Добавить код снизу</label>
+						</div>
+						<div class="input-field">
+							<input type="text" id="path" placeholder="../shares/img/">
+							<label for="path">Путь до img</label>
+						</div>
+					</div>
+					<div class="options-item">
+
+					</div>
+					<div class="options-item">
+
+					</div>
+				</div>
+
+				<!-- 			<div class="options-field options-field-2">
+					<div class="options-item">
+
+					</div>
+					<div class="options-item">
+
+					</div>
+					<div class="options-item">
+
+					</div>
+					<div class="options-item">
+
+					</div>
+				</div> -->
+			</div>
+		</div>
+
+	</section>
+
+	<section class="drag-create">
+
+	</section>
+
+
+
+
+	<script src="script/materialize.min.js"></script>
+
+	<script src="script/script.js"></script>
+
+</body>
+
+</html>

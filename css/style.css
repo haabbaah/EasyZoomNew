@@ -1,0 +1,205 @@
+@import url('fonts.css');
+/* @import url('reset.css'); */
+@import url('materialize.css');
+/* @import url('pretty-checkbox.css'); */
+
+
+
+
+
+/* Общие стили */
+
+html,
+body {
+	width: 100%;
+	overflow-x: hidden;
+}
+
+body {
+	margin: 0;
+	font-size: 14pt;
+	line-height: 1;
+	font-family: 'Roboto Light';
+}
+
+img {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+.inv {
+	-webkit-filter: invert(100%);
+	filter: invert(100%);
+}
+
+input {
+	width: 100%;
+}
+
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(134, 134, 134, 0.3);
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #777777;
+}
+
+
+/* Общие стили end */
+
+
+
+
+
+
+/* Стили для проекта */
+
+.num-create {
+	display: grid;
+	grid-template-columns: minmax(11rem, 17rem) auto;
+	grid-column-gap: 3rem;
+	padding: 1rem;
+}
+
+.num-create .data {
+	display: flex;
+	flex-direction: column;
+}
+
+.num-create .data .data-num {
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-template-areas: "num clear"
+		"interval clear"
+		"input-a clear"
+		"input-b clear";
+	grid-gap: .5rem;
+}
+
+.num-create .data .data-num #num {
+	grid-area: num;
+}
+
+.num-create .data .data-num .input-a {
+	grid-area: input-a;
+}
+
+.num-create .data .data-num .input-b {
+	grid-area: input-b;
+}
+
+.num-create .data .data-num .clear {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	grid-area: clear;
+	height: 100%;
+}
+
+.num-create .data .data-num .interval {
+	display: flex;
+	align-items: center;
+	grid-area: interval
+}
+
+.num-create .data .data-num .interval label {
+	padding: 0 1rem;
+}
+
+.num-create .data .data-num .interval label:first-child {
+	padding-left: 0;
+}
+
+
+
+
+.num-create .options .options-trigger {
+	display: flex;
+}
+
+.num-create .options .options-trigger .btn-large {
+	width: 50%;
+	pointer-events: all;
+	box-shadow: none;
+	cursor: pointer;
+}
+
+.num-create .options .options-wrapper .options-field {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-column-gap: 2rem;
+	margin-top: 1rem;
+}
+
+.num-create .options .options-radio,
+.num-create .options .input,
+.num-create .options .input-field {
+	margin-bottom: 3rem;
+}
+
+.num-create .options .input-margin .wrapper-input {
+	display: flex;
+}
+
+.num-create .options .input-margin .wrapper-input input {
+	display: flex;
+}
+
+.num-create .options .input-margin .wrapper-input input:first-child {
+	margin-right: 1rem;
+}
+
+.num-create .options .input-field textarea {
+	height: 5rem !important;
+	resize: vertical;
+	overflow: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.get-code {
+	margin: 3rem 0;
+}
+
+.get-code .btn-large {
+	width: 100%;
+}
+
+.get-code #field-get-code {
+	margin-top: 5px;
+	width: 100%;
+	height: 10rem;
+	font-size: 12pt;
+	resize: vertical;
+}
+
+
+
+
+
+
+
+
+
+.d-n {
+	display: none !important;
+}
+
+/* Стили для проекта end */
