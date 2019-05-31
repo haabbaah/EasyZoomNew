@@ -1,11 +1,8 @@
 'use strict'
 
-
-
-
 class Engine {
 	constructor() {
-
+		this.screenDefault = 'standart';
 	}
 
 	addClassOneElement(element, elements, cssClass) { //Добавить класс одному элементу, а у других убрать
@@ -59,13 +56,51 @@ class Engine {
 	}
 
 
+	toggleClass(elements, name) { // Переключение класса
+		let toggleElement;
+		if (typeof elements === "string") {
+			toggleElement = document.querySelectorAll(elements);
+		} else {
+			toggleElement = elements;
+		}
+		for (let k = 0; k < toggleElement.length; k++) {
+			toggleElement[k].classList.toggle(name);
+		}
 
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class GetCode extends Engine {
 	constructor() {
 		super();
+		this.body = document.querySelector('body');
+
 
 		this.getCode = document.querySelector('.btn-get-code');
 		this.getCodeTextarea = document.querySelector('#field-get-code');
@@ -79,10 +114,22 @@ class GetCode extends Engine {
 		this.notSlider = document.querySelectorAll('.not-slider');
 		this.withSlider = document.querySelectorAll('.with-slider');
 
+		this.dndBtn = document.querySelector('.dnd-btn');
+		this.standartBtn = document.querySelector('.back-standart');
+		this.numCreate = document.querySelector('.num-create');
+		this.dragCreate = document.querySelector('.drag-create');
+
+		this.btnGlobOptIcon = document.querySelector('.global-option-icon');
+		this.globalOption = document.querySelector('.global-option');
+		this.standartScreen = document.querySelector('.standart-screen');
+		this.dndScreen = document.querySelector('.dnd-screen');
+
 		this.dataNum = {};
 		this.options = {};
 		this.clear = document.querySelector('.clear');
 
+		this.defaultScreen = localStorage.getItem("defaultScreen");
+		this.setDefaultScreen();
 
 
 		this.triggerFoto.addEventListener('click', (event) => {
@@ -107,17 +154,101 @@ class GetCode extends Engine {
 			this.clearInput('.data-num input');
 		}, false);
 
-		document.addEventListener('keyup', (event) => {
-			if (event.keyCode === 27) { //Esc
-				this.clearInput('.data-num input');
-			} else if (event.keyCode === 13) { //Enter
-				this.createData();
-			} else if (event.keyCode === 32 && event.ctrlKey) { //Ctrl + Space
-				this.changeCheckBox('.not-description', '.with-description');
-			}
+
+
+		this.bindHotKey = this.addHotKey.bind(this);
+
+		if (this.screenDefault === 'standart') {
+			this.body.addEventListener('keyup', this.bindHotKey, false);
+		} else {
+			this.body.removeEventListener('keyup', this.bindHotKey, false);
+		}
+
+
+
+		this.dndBtn.addEventListener('click', (event) => {
+			this.triggerDnd();
+			this.body.removeEventListener('keyup', this.bindHotKey, false);
+		}, false);
+
+		this.standartBtn.addEventListener('click', (event) => {
+			this.triggerStandart();
+			this.body.addEventListener('keyup', this.bindHotKey, false);
+		}, false);
+
+
+		this.standartScreen.addEventListener('input', (event) => {
+			localStorage.setItem("defaultScreen", false);
+		}, false);
+
+		this.dndScreen.addEventListener('input', (event) => {
+			localStorage.setItem("defaultScreen", true);
+		}, false);
+
+		this.btnGlobOptIcon.addEventListener('click', (event) => {
+			this.toggleClass('.global-option', 'd-n');
 		}, false);
 
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	setDefaultScreen() {
+		if (this.defaultScreen === 'true') { //Перетаскивание
+			this.numCreate.classList.add('d-n');
+			this.dragCreate.classList.remove('d-n');
+			this.standartScreen.checked = false;
+			this.dndScreen.checked = true;
+			this.screenDefault = 'dnd';
+		} else { //Стандартный
+			this.numCreate.classList.remove('d-n');
+			this.dragCreate.classList.add('d-n');
+			this.standartScreen.checked = true;
+			this.dndScreen.checked = false;
+			this.screenDefault = 'standart';
+		}
+	}
+
+
+
+	triggerDnd() { //Переключение на перетягивание
+		this.numCreate.classList.add('d-n');
+		this.dragCreate.classList.remove('d-n');
+		this.screenDefault = 'dnd';
+	}
+
+	triggerStandart() { //Переключение на стандартный экран
+		this.numCreate.classList.remove('d-n');
+		this.dragCreate.classList.add('d-n');
+		this.screenDefault = 'standart';
+	}
+
+
+
+	addHotKey(event) {
+		if (event.keyCode === 27) { //Esc
+			this.clearInput('.data-num input');
+			console.log('eee');
+		} else if (event.keyCode === 13) { //Enter
+			this.createData();
+		} else if (event.keyCode === 32 && event.ctrlKey) { //Ctrl + Space
+			this.changeCheckBox('.not-description', '.with-description');
+		}
+	}
+
 
 
 	createData() {
@@ -145,12 +276,12 @@ class GetCode extends Engine {
 			path: document.querySelector('#path').value,
 		};
 
-
 		this.dataNum.arrOnly = this.dataNum.only.split(' ');
-		this.dataNum.max = Math.max.apply(null, this.dataNum.arrOnly); //максимальное число из массива
+		this.dataNum.arrPass = this.dataNum.pass.split(' ');
+		this.dataNum.onlyMax = Math.max.apply(null, this.dataNum.arrOnly); //максимальное число из массива
+		this.dataNum.onlyMin = Math.min.apply(null, this.dataNum.arrOnly); //минимальное число из массива
 
 		this.dataNum.startNum = this.dataNum.startNum || 1; //начать с
-
 
 		if (!this.dataNum.num) {
 			if (!this.dataNum.endNum) {
@@ -164,31 +295,23 @@ class GetCode extends Engine {
 			}
 		}
 
-
 		this.options.withJpg ? this.options.withJpg = 'jpg' : this.options.withJpg = 'png';
 		this.options.notFrame ? this.options.notFrame = '' : this.options.notFrame = 'frame';
 		this.options.notObj ? this.options.notObj = '' : this.options.notObj = 'obj';
-
 
 		this.options.marginTop = this.options.marginTop || "2";
 		this.options.marginBottom = this.options.marginBottom || "2";
 		this.options.marginTopUnit = this.options.marginTopUnit || "rem";
 		this.options.marginBottomUnit = this.options.marginBottomUnit || "rem";
 
-
-
-
 		if (this.dataNum.startNum > this.dataNum.num) {
 			this.dataNum.num = this.dataNum.startNum;
 		}
 
-
-
-
-		console.log(this.dataNum.startNum);
-		console.log(this.dataNum.num);
-
-
+		if (this.dataNum.arrOnly[0]) {
+			this.dataNum.startNum = this.dataNum.onlyMin;
+			this.dataNum.num = this.dataNum.onlyMax;
+		}
 
 		if (this.field === 'foto') {
 			this.createFotoCode();
@@ -197,12 +320,19 @@ class GetCode extends Engine {
 		}
 	}
 
-
-
-
 	createFotoCode() {
 		if (this.options.notDescription) {
 			for (let k = this.dataNum.startNum; k <= this.dataNum.num; k++) {
+				if (this.dataNum.arrOnly[0]) {
+					if (this.onlyPhoto(k)) {
+						continue;
+					}
+				}
+				if (this.dataNum.arrPass[0]) {
+					if (this.passPhoto(k)) {
+						continue;
+					}
+				}
 				if (k < 10) {
 					k = "0" + k;
 				}
@@ -213,7 +343,7 @@ class GetCode extends Engine {
 				if (k < 10) {
 					k = "0" + k;
 				}
-				this.str = this.str + `\n<div class="zooming">\n<figure itemprop="associatedMedia" style="margin-top: ${this.options.marginTop}${this.options.marginTopUnit}; margin-bottom: ${this.options.marginBottom}${this.options.marginBottomUnit}">\n<a href="${this.options.path + k}.${this.options.withJpg}" itemprop="contentUrl" data-size="">\n<img src="${this.options.path + k}.${this.options.withJpg}" itemprop="thumbnail" class="${this.options.addClassImg} ${this.options.notFrame}" />\n</a>\n<figcaption itemprop="caption description">\n\n </figcaption>\n</figure>\n</div>\n<figcaption itemprop="caption description">\n\n</figcaption>\n`;
+				this.str = this.str + this.options.codeTop + `\n<div class="zooming">\n<figure itemprop="associatedMedia" style="margin-top: ${this.options.marginTop}${this.options.marginTopUnit}; margin-bottom: ${this.options.marginBottom}${this.options.marginBottomUnit}">\n<a href="${this.options.path + k}.${this.options.withJpg}" itemprop="contentUrl" data-size="">\n<img src="${this.options.path + k}.${this.options.withJpg}" itemprop="thumbnail" class="${this.options.addClassImg} ${this.options.notFrame}" />\n</a>\n<figcaption itemprop="caption description">\n\n </figcaption>\n</figure>\n</div>\n<figcaption itemprop="caption description">\n\n</figcaption>\n` + this.options.codeBottom;
 			}
 		}
 
@@ -223,16 +353,53 @@ class GetCode extends Engine {
 
 
 	createSliderCode() {
-		console.log('slider');
+		for (let k = this.dataNum.startNum; k <= this.dataNum.num; k++) {
+			if (this.dataNum.arrOnly[0]) {
+				if (this.onlyPhoto(k)) {
+					continue;
+				}
+			}
+			if (this.dataNum.arrPass[0]) {
+				if (this.passPhoto(k)) {
+					continue;
+				}
+			}
+			if (k < 10) {
+				k = "0" + k;
+			}
+			this.str = this.str + `\n<figure itemprop="associatedMedia">\n<a href="${this.options.path + k}.${this.options.withJpg}" itemprop="contentUrl" data-size="">\n<img src="${this.options.path + k}.${this.options.withJpg}" itemprop="thumbnail" class="item ${this.options.addClassImg} ${this.options.notObj}" />\n</a>\n<figcaption itemprop="caption description">\n \n</figcaption>\n<pswp__caption__center itemprop="caption description">\n<div class="caption_padding">\n \n</div>\n</pswp__caption__center>\n</figure>\n`;
+		}
+
+		this.str = this.options.codeTop + `\n<div class="zooming sliding_gallery" itemscope style="margin:auto; margin-top: ${this.options.marginTop}${this.options.marginTopUnit}; margin-bottom: ${this.options.marginBottom}${this.options.marginBottomUnit};">\n` + this.str + `\n</div>\n` + this.options.codeBottom;
+
+		this.copyCode();
 	}
 
 
+	onlyPhoto(index) {
+		let onlyCheck = this.dataNum.arrOnly.some(isNegative);
+		if (!onlyCheck) {
+			return true;
+		}
 
+		function isNegative(num) {
+			return num == index;
+		}
+	}
 
+	passPhoto(index) {
+		let passCheck = this.dataNum.arrPass.some(isPositive);
+		if (passCheck) {
+			return true;
+		}
+
+		function isPositive(num) {
+			return num == index;
+		}
+	}
 
 
 	copyCode() {
-
 		this.getCodeTextarea.value = this.str;
 
 		//Автоматическое копирование в буфер обменм
@@ -242,9 +409,6 @@ class GetCode extends Engine {
 
 		this.str = '';
 	}
-
-
-
 
 
 	changeOptionsField() { //Смена между фото и слайдером
@@ -277,9 +441,11 @@ class GetCode extends Engine {
 		}
 	}
 
-
-
 }
+
+
+
+
 
 
 const getCode = new GetCode();

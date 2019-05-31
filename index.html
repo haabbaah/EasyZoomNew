@@ -12,7 +12,7 @@
 	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
 	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">
 
-
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="css/style.css">
 
 
@@ -48,14 +48,14 @@
 
 			<div class="get-code">
 				<div class="btn-large btn-get-code waves-effect">
-					получить
+					получить <i class="material-icons">content_copy</i>
 				</div>
-				<textarea id="field-get-code">
+				<textarea class="field-get-code" id="field-get-code">
 
 				</textarea>
 			</div>
 
-			<div class="btn-large waves-effect">
+			<div class="btn-large waves-effect dnd-btn blue lighten-1">
 				drag and drop
 			</div>
 
@@ -137,7 +137,7 @@
 							<label for="add-class-img">Добавить класс для img</label>
 						</div>
 
-					<!-- 	<div class="input-field">
+						<!-- 	<div class="input-field">
 							<input id="wrapper-class" type="text">
 							<label for="wrapper-class">Обернуть в свой класс</label>
 						</div> -->
@@ -198,14 +198,139 @@
 
 	</section>
 
-	<section class="drag-create">
+	<section class="drag-create d-n">
+		<div class="gui-options">
 
+
+
+			<div class="wrapper-btn">
+				<div class="back-standart btn-large blue lighten-1">
+					Стандартный экран
+				</div>
+
+				<div class="btn-sort btn-large" id="sort">
+					Сортировка <i class="material-icons">sort</i>
+				</div>
+
+				<div class="btn-gui-slider btn-large btn-disables">
+					СЛАЙДЕР
+				</div>
+			</div>
+
+
+			<div class="gui-option-dinamic">
+				<form class="item">
+					<p>
+						<label>
+							<input type="checkbox" id="gui-comm-frame" />
+							<span>С рамкой</span>
+						</label>
+					</p>
+				</form>
+
+				<div class="input-field item">
+					<input id="gui-comm-img-class" type="text" placeholder="Класс для img">
+				</div>
+
+				<div class="input-field item">
+					<input id="gui-comm-my-class" type="text" placeholder="Обернуть в свой класс">
+				</div>
+
+				<div class="input-field item">
+					<input id="gui-comm-mTop" type="text" placeholder="Отступ сверху">
+				</div>
+
+				<div class="input-field item">
+					<input id="gui-comm-mBottom" type="text" placeholder="Отступ снизу">
+				</div>
+			</div>
+
+
+			<div class="get-code">
+				<div class="btn-large gui-btn-get-code waves-effect">
+					получить <i class="material-icons">content_copy</i>
+				</div>
+				<textarea class="field-get-code" id="result-gui">
+
+				</textarea>
+			</div>
+
+			<input type="file" id="files" name="files[]" multiple />
+
+		</div>
+		<div class="gui-body">
+			<output id="list">
+
+		<!-- 		<div class="dad-block">
+					<div class="wrap-img-btn">
+						<div>
+							<img class="thumb" src="1.jpg" alt="">
+						</div>
+						<button class="gui-btn-option"><i class="material-icons">settings</i></button>
+					</div>
+					<strong>123 <i class="del-item material-icons">delete</i> </strong>
+					<textarea class="description"></textarea>
+					<div class="wrapper-element">
+						<div class="option-item">
+							<form class="item">
+								<p>
+									<label>
+										<input type="checkbox" id="gui-frame" />
+										<span>С рамкой</span>
+									</label>
+								</p>
+							</form>
+							<div class="input-field item">
+								<input id="gui-my-img-class" type="text" placeholder="Класс для img">
+							</div>
+							<div class="input-field item">
+								<input id="gui-my-class" type="text" placeholder="Обернуть в свой класс">
+							</div>
+							<div class="input-field item">
+								<input id="gui-mTop" type="text" placeholder="Отступ сверху">
+							</div>
+							<div class="input-field item">
+								<input id="gui-mBottom" type="text" placeholder="Отступ снизу">
+							</div>
+						</div>
+					</div>
+				</div> -->
+
+			</output>
+		</div>
 	</section>
 
 
 
+	<div class="global-option-icon">
+		<i class="material-icons">settings</i>
+	</div>
 
+	<section class="global-option d-n">
+		<div class="global-option-wrapper">
+			<form class="block options-radio not-slider">
+				<p>Экран по умолчанию</p>
+				<p>
+					<label>
+						<input class="with-gap standart-screen" name="group7" type="radio" checked />
+						<span>Стандартный</span>
+					</label>
+				</p>
+				<p>
+					<label>
+						<input class="with-gap dnd-screen" name="group7" type="radio" />
+						<span>Перетаскивание</span>
+					</label>
+				</p>
+			</form>
+		</div>
+	</section>
+
+
+
+	<script src="script/jquery.min.js"></script>
 	<script src="script/materialize.min.js"></script>
+	<script src="script/gui.js"></script>
 
 	<script src="script/script.js"></script>
 
