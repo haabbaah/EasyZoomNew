@@ -107,6 +107,7 @@ class GetCode extends Engine {
 		this.str = '';
 
 		this.field = 'foto';
+		//this.descriptionTriger = true;
 
 		this.triggerBtn = document.querySelectorAll('.trigger-btn');
 		this.triggerFoto = document.querySelector('.trigger-foto');
@@ -123,6 +124,12 @@ class GetCode extends Engine {
 		this.globalOption = document.querySelector('.global-option');
 		this.standartScreen = document.querySelector('.standart-screen');
 		this.dndScreen = document.querySelector('.dnd-screen');
+
+
+	/* 	this.notDescription = document.querySelector('.not-description');
+		this.withDescription = document.querySelector('.with-description');
+ */
+
 
 		this.dataNum = {};
 		this.options = {};
@@ -241,7 +248,6 @@ class GetCode extends Engine {
 	addHotKey(event) {
 		if (event.keyCode === 27) { //Esc
 			this.clearInput('.data-num input');
-			console.log('eee');
 		} else if (event.keyCode === 13) { //Enter
 			this.createData();
 		} else if (event.keyCode === 32 && event.ctrlKey) { //Ctrl + Space
@@ -300,7 +306,12 @@ class GetCode extends Engine {
 		this.options.notObj ? this.options.notObj = '' : this.options.notObj = 'obj';
 
 		this.options.marginTop = this.options.marginTop || "2";
-		this.options.marginBottom = this.options.marginBottom || "2";
+		if (this.options.notDescription) {
+			this.options.marginBottom = this.options.marginBottom || "2";
+		} else {
+			this.options.marginBottom = this.options.marginBottom || "1";
+		}
+
 		this.options.marginTopUnit = this.options.marginTopUnit || "rem";
 		this.options.marginBottomUnit = this.options.marginBottomUnit || "rem";
 

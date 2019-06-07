@@ -127,7 +127,7 @@ function getGuiCode() {
 	if (guiSlider) {
 		guiOption.gMTop = guiOption.gMTop || "2";
 		guiOption.gMBottom = guiOption.gMBottom || "2";
-		strGui = '\n<div class="zooming sliding_gallery" itemscope style="margin:auto; margin-top: ' + guiOption.gMTop + 'rem; margin-bottom: ' + guiOption.gMBottom + 'rem;">\n' + strGui + '\n</div>\n';
+		strGui = '\n<div class="zooming sliding_gallery" itemscope style="margin-top: ' + guiOption.gMTop + 'rem; margin-bottom: ' + guiOption.gMBottom + 'rem;">\n' + strGui + '\n</div>\n';
 	}
 }
 
